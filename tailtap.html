@@ -1,0 +1,88 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+	<title>Tail Tap v1.0.1</title>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(320, 480, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+
+function preload() {
+	game.load.image('background','assets/newbg.png');
+	game.load.image('player','assets/player.png');
+	game.load.image('enemy','assets/player.png');
+}
+
+function create() {
+	//Background scrolling
+	this.backgroundA = this.game.add.sprite(0,-480,'background');
+	this.backgroundB = this.game.add.sprite(0,-1440,'background');
+	
+	//Enable physics system
+	game.physics.startSystem(Phaser.Physics.ARCADE);
+	
+	/*Initialization
+	enemies = game.add.group();
+	var enemy = enemies.create(10,10,'enemy');
+	*/
+	
+	this.player = this.game.add.sprite(50,25,'player');
+	game.physics.arcade.enable(this.player);
+	this.player.enableBody = true;
+	
+	moveSpeed = 50;
+
+	friction = 1;
+	
+}
+
+function update() {
+	//Background scrolling
+	scrollBackground(this.backgroundA);
+	scrollBackground(this.backgroundB);
+	
+
+	
+	//Detect clicks to process player movement
+	if(this.game.input.activePointer.justPressed()) {
+      this.game.physics.arcade.moveToPointer(this.player, moveSpeed);
+    }
+	
+	//enemies.y += moveSpeed;
+	
+	/*if(moveSpeed > 0)
+	{
+		moveSpeed -= friction; 
+	}
+	
+	else
+	{
+		moveSpeed = 0;
+	}*/
+	
+}
+
+function scrollBackground(background){
+	if(background.y>=480)
+	{
+		background.y=-1430;
+	}
+	else
+	{
+		background.y+=2;
+	}
+}
+
+</script>
+
+</body>
+</html>
